@@ -1,0 +1,242 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{category.category_name}} Products {% endblock %}
+{% block content %}
+
+    
+    <!-- product section -->
+		<div class="container-fluid py-5">
+			<div class="row">
+				<div class="col-md-2 d-none d-md-block">
+					<div class="filter-section">
+						<h2>Filters</h2>
+						<div class="filter-title">Price</div>
+						<div class="filter-options">
+							<div class="d-flex justify-content-between align-items-center">
+								<label><input type="checkbox" /> $0 - $50</label>
+								<span>(12)</span>
+							</div>
+							<div class="d-flex justify-content-between align-items-center">
+								<label><input type="checkbox" /> $50 - $100</label>
+								<span>(35)</span>
+							</div>
+							<div class="d-flex justify-content-between align-items-center">
+								<label><input type="checkbox" /> $100+</label>
+								<span>(21)</span>
+							</div>
+						</div>
+					</div>
+				
+					<div class="filter-section">
+						<div class="filter-title">Category</div>
+						<div class="filter-options">
+							<div class="d-flex justify-content-between align-items-center">
+								<label><input type="checkbox" /> T-Shirts</label>
+								<span>(45)</span>
+							</div>
+							<div class="d-flex justify-content-between align-items-center">
+								<label><input type="checkbox" /> Jeans</label>
+								<span>(30)</span>
+							</div>
+							<div class="d-flex justify-content-between align-items-center">
+								<label><input type="checkbox" /> Dresses</label>
+								<span>(25)</span>
+							</div>
+							<div class="d-flex justify-content-between align-items-center">
+								<label><input type="checkbox" /> Sweaters</label>
+								<span>(18)</span>
+							</div>
+						</div>
+					</div>
+				
+					<div class="filter-section">
+						<div class="filter-title">Rating</div>
+						<div class="filter-options">
+							<div class="d-flex justify-content-between align-items-center">
+								<label><input type="checkbox" /> ★★★★★</label>
+								<span>(60)</span>
+							</div>
+							<div class="d-flex justify-content-between align-items-center">
+								<label><input type="checkbox" /> ★★★★☆</label>
+								<span>(50)</span>
+							</div>
+							<div class="d-flex justify-content-between align-items-center">
+								<label><input type="checkbox" /> ★★★☆☆</label>
+								<span>(35)</span>
+							</div>
+							<div class="d-flex justify-content-between align-items-center">
+								<label><input type="checkbox" /> ★★★☆☆</label>
+								<span>(35)</span>
+							</div>
+							<div class="d-flex justify-content-between align-items-center">
+								<label><input type="checkbox" /> ★★★☆☆</label>
+								<span>(35)</span>
+							</div>
+						</div>
+					</div>
+				
+					<div class="filter-section">
+						<div class="filter-title">Discount</div>
+						<div class="filter-options">
+							<div class="d-flex justify-content-between align-items-center">
+								<label><input type="checkbox" /> 5%-10%</label>
+								<span>(10)</span>
+							</div>
+							<div class="d-flex justify-content-between align-items-center">
+								<label><input type="checkbox" /> 10%-20%</label>
+								<span>(25)</span>
+							</div>
+							<div class="d-flex justify-content-between align-items-center">
+								<label><input type="checkbox" /> 20%+ </label>
+								<span>(15)</span>
+							</div>
+						</div>
+					</div>
+				
+					<div class="filter-section">
+						<div class="filter-title">Color</div>
+						<div class="filter-options">
+							<div class="d-flex justify-content-between align-items-center">
+								<label><input type="checkbox" /> Red</label>
+								<span>(56)</span>
+							</div>
+							<div class="d-flex justify-content-between align-items-center">
+								<label><input type="checkbox" /> Blue</label>
+								<span>(10)</span>
+							</div>
+							<div class="d-flex justify-content-between align-items-center">
+								<label><input type="checkbox" /> Green</label>
+								<span>(50)</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-10">
+					<button
+						class="btn btn-primary d-md-none mb-3"
+						type="button"
+						data-bs-toggle="offcanvas"
+						data-bs-target="#filterOffcanvas"
+						aria-controls="filterOffcanvas"
+					>
+						<i class="fas fa-filter"></i> Filters
+					</button>
+
+					<h2>Products</h2> 
+					
+					<div class="row">
+						<div class="col-sm-6 col-lg-12">
+							<div class="container-fluid pb-5">
+								
+								<div
+									class="row row-cols-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 g-4 justify-content-center"
+									id="filter-cards">
+
+                                     {% for product in products %}
+                                        <div class="col">
+                                            <div class="card h-100 w-100">
+                                                {% if product.slug %}
+                                                    <a href="{% url 'product_detail' product.slug %}">
+                                                        <img class="card-img-top" src="{{product.images.first.image_path.url }}" alt="{{ product.name }}" style="height: 500px; object-fit: cover;">
+                                                    </a>
+                                                     {% else %}
+                                                        <img class="card-img-top" src="{{product.images.first.image_path.url }}" alt="{{ product.name }}" style="height: 500px; object-fit: cover;">
+                                                   
+                                                    {% endif %}
+                                                    
+                                                    <div class="card-body">
+                                                   
+
+                                                    {% if product.slug %}
+                                                        <a href="{% url 'product_detail' product.slug %}">
+                                                           <h5 class="card-title">{{ product.name }}</h5>
+                                                        </a>
+                                                    {% else %}
+                                                        <h5 class="card-title">{{ product.name }}</h5>
+                                                    {% endif %}
+                                                   
+                                                    <p class="card-text text-muted mb-1">{{ product.category.category_name }}</p>
+                                                    <p class="card-text mb-2">${{product.price}}</p>
+                                                    <p class="card-text small">{{product.description}}</p>
+                                                    <p class="card-text text-warning mb-0">
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star-fill"></i>
+                                                        <i class="bi bi-star-fill"></i>({{product.rating}})
+                                                    </p>
+                                                    <p class="card-text small mt-2 text-success">In Stock</p>
+                                                </div>
+                                                <div class="card-footer d-flex justify-content-between align-items-center">
+                                                    <button class="btn btn-primary btn-sm">
+                                                        <i class="fas fa-cart-plus banner_button_icon"></i> Add to Cart
+                                                    </button>
+                                                    <button class="btn btn-outline-secondary btn-sm">
+                                                        <i class="bi bi-heart-fill"></i> Wishlist
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                     {% endfor %}
+                                     
+                                </div>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div
+			class="offcanvas offcanvas-start"
+			tabindex="-1"
+			id="filterOffcanvas"
+			aria-labelledby="filterOffcanvasLabel">
+			<div class="offcanvas-header">
+				<h5 class="offcanvas-title" id="filterOffcanvasLabel">Filters</h5>
+				<button
+					type="button"
+					class="btn-close text-reset"
+					data-bs-dismiss="offcanvas"
+					aria-label="Close"
+				></button>
+			</div>
+			<div class="offcanvas-body">
+				<div class="filter-section">
+					<div class="filter-title">Price</div>
+					<div class="filter-options">
+						<label><input type="checkbox" /> $0 - $50</label>
+						<label><input type="checkbox" /> $50 - $100</label>
+						<label><input type="checkbox" /> $100+</label>
+					</div>
+				</div>
+				<div class="filter-section">
+					<div class="filter-title">Color</div>
+					<div class="filter-options">
+						<label><input type="checkbox" /> Red</label>
+						<label><input type="checkbox" /> Blue</label>
+						<label><input type="checkbox" /> Green</label>
+					</div>
+				</div>
+				<div class="filter-section">
+					<div class="filter-title">Size</div>
+					<div class="filter-options">
+						<label><input type="checkbox" /> S</label>
+						<label><input type="checkbox" /> M</label>
+						<label><input type="checkbox" /> L</label>
+					</div>
+				</div>
+				<div class="filter-section">
+					<div class="filter-title">Brand</div>
+					<div class="filter-options">
+						<label><input type="checkbox" /> Brand A</label>
+						<label><input type="checkbox" /> Brand B</label>
+						<label><input type="checkbox" /> Brand C</label>
+					</div>
+				</div>
+				<button class="btn btn-primary w-100">Apply Filters</button>
+			</div>
+		</div>
+		
+
+{% endblock %}
