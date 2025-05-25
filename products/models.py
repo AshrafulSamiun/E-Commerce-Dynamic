@@ -53,7 +53,6 @@ class Category(TimeStampModel):
    
 class Brand(TimeStampModel):
     name = models.CharField(max_length=200)
-    logo_url = models.ImageField(upload_to='brands/')
     description = models.TextField()
     slug = models.SlugField(max_length=200, unique=True,blank=True)  # Unique slug for the brand    
 

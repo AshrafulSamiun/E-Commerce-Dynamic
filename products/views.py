@@ -11,12 +11,21 @@ from django.db.models import Count
 # Create your views here.
 
 def home(request):
-    products = Product.objects.all()
+   # products = Product.objects.all()
     #categories = Category.objects.annotate(product_count=Count("products"))
+
+    top_products = Product.objects.filter(
+        product_categories__category__slug="top-selling"
+    ).distinct()
+
+    new_products = Product.objects.filter(
+        product_categories__category__slug="new-arival"
+    ).distinct()
+
     categories = Category.objects.annotate(
         product_count=Count('product_categories__product')
     )
-    context = {"products": products, "categories": categories}
+    context = {"top_products": top_products,"new_products": new_products, "categories": categories}
 
     return render(request, "products/home.html", context)
 

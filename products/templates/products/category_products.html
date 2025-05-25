@@ -140,10 +140,10 @@
                                                     <a href="{% url 'product_detail' product.slug %}">
                                                         <img class="card-img-top" src="{{product.images.first.image_path.url }}" alt="{{ product.name }}" style="height: 500px; object-fit: cover;">
                                                     </a>
-                                                     {% else %}
-                                                        <img class="card-img-top" src="{{product.images.first.image_path.url }}" alt="{{ product.name }}" style="height: 500px; object-fit: cover;">
-                                                   
-                                                    {% endif %}
+												{% else %}
+													<img class="card-img-top" src="{{product.images.first.image_path.url }}" alt="{{ product.name }}" style="height: 500px; object-fit: cover;">
+												
+												{% endif %}
                                                     
                                                     <div class="card-body">
                                                    

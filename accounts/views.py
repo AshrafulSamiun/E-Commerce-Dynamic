@@ -18,6 +18,8 @@ def user_signup(request):
             send_verification_email(request, user)
             messages.info(request, 'We send you a verification link. Please click on it to verify your account.')
             return redirect('login')  
+        else:
+            messages.error(request, 'Please enter valid details.')
         
     else: 
         form=CustomUserRegistrationForm()

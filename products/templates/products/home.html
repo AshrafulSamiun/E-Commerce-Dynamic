@@ -31,17 +31,28 @@
 					data-bs-slide-to="2"
 					aria-label="Slide 3"
 				></button>
+                <button
+					type="button"
+					data-bs-target="#carouselExampleCaptions"
+					data-bs-slide-to="3"
+					aria-label="Slide 4"
+				></button>
+                <button
+					type="button"
+					data-bs-target="#carouselExampleCaptions"
+					data-bs-slide-to="4"
+					aria-label="Slide 5"
+				></button>
 			</div>
 			<div class="carousel-inner">
 				<div class="carousel-item active">
 					<img
-						src="https://cdn.shopify.com/s/files/1/0423/3576/4634/files/formal-trousers-for-men_2a8d2cfb-77c4-46f3-a5c7-ae1384e041b9.jpg?v=1698664663"
+						src="/media/banner/CollageAutumnFashionSaleBanner.png"
 						class="d-block w-100"
 						alt="..."
 					/>
 					<div
-						class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100"
-					>
+						class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100">
 						<h5 class="banner_subtitle text-dark">Best Quality Products</h5>
 						<h5 class="banner_title text-dark">Join The Organic Movement!</h5>
 						<p class="text-dark">
@@ -59,26 +70,14 @@
 				</div>
 				<div class="carousel-item">
 					<img
-						src="https://blucheez.fashion/cdn/shop/collections/Pant_Banner.webp?v=1723349995&width=1000"
+						src="media/banner/FashionSaleBannerLandscape.png"
 						class="d-block w-100"
 						alt="..."
 					/>
 					<div
 						class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100"
 					>
-						<h5 class="banner_subtitle text-dark">Best Quality Products</h5>
-						<h5 class="banner_title text-dark">Join The Organic Movement!</h5>
-						<p class="text-dark">
-							Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa,
-							optio aut. Doloribus ratione cumque, laudantium voluptatibus
-							eligendi aut saepe minima architecto qui, officia, natus labore
-							minus. Repellendus quae velit nisi!
-						</p>
-
-						<button class="btn btn-primary">
-							<i class="fas fa-cart-plus banner_button_icon"></i>
-							Shop Now
-						</button>
+						
 					</div>
 				</div>
 				<div class="carousel-item">
@@ -105,6 +104,29 @@
 						</button>
 					</div>
 				</div>
+                <div class="carousel-item">
+					<img
+						src="media/banner/T-ShirtScreenPrintPromotionBanner.png"
+						class="d-block w-100"
+						alt="..."
+					/>
+					<div
+						class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100"
+					>
+						
+					</div>
+				</div>
+                <div class="carousel-item">
+					<img
+						src="media/banner/PinkandBrownFloralStyle.png"
+						class="d-block w-100"
+						alt="..."
+					/>
+					<div
+						class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100"
+					>
+					</div>
+				</div>
 			</div>
 			<button
 				class="carousel-control-prev"
@@ -125,139 +147,103 @@
 				<span class="visually-hidden">Next</span>
 			</button>
 		</div>
+
+
+        <!-- Catagory post  -->
+        <div class="container-fluid">
+			<div class="row">
+                {% for category in categories|slice:4 %}
+                    <div class="col-sm-6 col-md-3 col-lg-3 col-xl-3 py-3">
+                        <img class="image-resize" src="{{ category.category_image.url }}" alt="{{ category.name }}">
+                    </div>
+                {% endfor %}
+			</div>
+		</div>
 		
 		<div class="container-fluid py-4">
 			<h2 class="pb-2 font-weight-bolder text-center">Best Selling Products</h2>
 			<div
 				class="row row-cols-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 g-4 justify-content-center"
 				id="product-cards">
-               
-                <div class="col">
-                    <div class="card h-100 w-100">
-                        <img class="card-img-top" src="https://img.lovepik.com/free-png/20210919/lovepik-cotton-short-sleeved-t-shirt-png-image_400477563_wh1200.png"
-                         alt="Classic White T-Shirt" style="height: 200px; object-fit: cover;">
-                         
-                         <div class="card-body">
-                            <a class="card-title text-decoration-none text-dark" href="product-details.html?id=1">Classic White T-Shirt</a>
-                            <p class="card-text text-muted mb-1">Hanes</p><p class="card-text mb-2">$14.99</p>
-                            <p class="card-text small">100% cotton crew-neck T-shirt with a regular fit....</p>
-                            <p class="card-text text-warning mb-0">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i> (4.5)</p>
-                            <p class="card-text small mt-2 text-success">In Stock</p>
-                        </div><div class="card-footer d-flex justify-content-between align-items-center">
-                            <button class="btn btn-primary btn-sm">
-                                <i class="fas fa-cart-plus banner_button_icon"></i> Add to Cart
-                            </button>
-                            <button class="btn btn-outline-secondary btn-sm">
-                                <i class="bi bi-heart-fill"></i> Wishlist
-                            </button>
+                {% for product in top_products %}
+                    <div class="col col-sm-6 col-md-4 col-lg-4  col-xl-4">
+                        <div class="card h-100">
+                            {% if product.slug %}
+                                <a href="{% url 'product_detail' product.slug %}">
+                                    <img class="card-img-top" src="{{product.images.first.image_path.url }}" alt="{{ product.name }}" style="height: 500px; object-fit: cover;">
+                                </a>
+                            {% else %}
+                                <img class="card-img-top" src="{{product.images.first.image_path.url }}" alt="{{ product.name }}" style="height: 500px; object-fit: cover;">
+                            
+                            {% endif %}
+							<span class="rotated-badge yellow_badge overflow-hidden">Best Selling</span>
+                            <div class="card-body">
+                                {% if product.slug %}
+                                    <a href="{% url 'product_detail' product.slug %}">
+                                        <h5 class="card-title">{{ product.name }}</h5>
+                                    </a>
+                                {% else %}
+                                    <h5 class="card-title">{{ product.name }}</h5>
+                                {% endif %}
+                                <p class="card-text text-muted mb-1">Brand A</p>
+                                <p class="card-text mb-2">
+                                    ${{ product.price }}
+                                    <span
+                                        class="text-decoration-line-through text-danger ms-2"
+                                        > ${{ product.price }}</span
+                                    >
+                                </p>
+                                <p class="card-text small">
+                                    {{ product.description |truncatechars:100 }}
+                                </p>
+                                <p class="card-text text-warning mb-0">
+                                    
+                                
+                                        {% for i in "12345" %}
+                                            {% if forloop.counter <= product.full_star %}
+                                                <i class="bi bi-star-fill"></i>
+                                            {% elif product.half_star == 1 and forloop.counter == product.full_star|add:"1" %}
+                                                <i class="bi bi-star-half"></i>
+                                            {% else %}
+                                                <i class="bi bi-star"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                        
+                                    {{ product.rating }}
+                                </p>
+                                <p class="card-text small mt-2 text-success">In Stock</p>
+                            </div>
+                            <div
+                                class="card-footer d-flex justify-content-between align-items-center"
+                            >
+                                <a href="{% url 'add_cart' product.slug %}" >
+                                    <button class="btn btn-primary btn-sm" >
+                                        <i class="fas fa-cart-plus banner_button_icon"></i> Add to Cart
+                                    </button>
+                                </a>
+                                    <a href="{% url 'product_wishlist' product.slug %}" ></a>
+                                    <button class="btn btn-outline-secondary btn-sm">
+                                        <i class="bi bi-heart-fill"></i> Wishlist
+                                    </button>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100 w-100">
-                        <img class="card-img-top" src="https://img.lovepik.com/free-png/20210919/lovepik-cotton-short-sleeved-t-shirt-png-image_400477563_wh1200.png" alt="Slim Fit Jeans" style="height: 200px; object-fit: cover;">
-                        <div class="card-body">
-                            <a class="card-title text-decoration-none text-dark" href="product-details.html?id=2">Slim Fit Jeans</a>
-                            <p class="card-text text-muted mb-1">Levi's</p>
-                            <p class="card-text mb-2">$49.99<span class="text-decoration-line-through text-danger ms-2">$44.99</span></p>
-                            <p class="card-text small">Stretchable denim with a slim fit for daily wear....</p>
-                            <p class="card-text text-warning mb-0">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> (4.7)
-                            </p>
-                            <p class="card-text small mt-2 text-success">In Stock</p>
-                        </div>
-                        <div class="card-footer d-flex justify-content-between align-items-center">
-                            <button class="btn btn-primary btn-sm"><i class="fas fa-cart-plus banner_button_icon"></i> Add to Cart</button>
-                            <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-heart-fill"></i> Wishlist</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100 w-100">
-                        <img class="card-img-top" src="https://img.lovepik.com/free-png/20210919/lovepik-cotton-short-sleeved-t-shirt-png-image_400477563_wh1200.png" alt="Men's Formal Shirt" style="height: 200px; object-fit: cover;">
-                        <div class="card-body">
-                            <a class="card-title text-decoration-none text-dark" href="product-details.html?id=3">Men's Formal Shirt</a>
-                            <p class="card-text text-muted mb-1">Arrow</p>
-                            <p class="card-text mb-2">$29.99
-                                <span class="text-decoration-line-through text-danger ms-2">$28.49</span>
-                            </p>
-                            <p class="card-text small">Long-sleeved, button-up shirt made with breathable...</p>
-                            <p class="card-text text-warning mb-0">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i> (4.2)
-                            </p>
-                            <p class="card-text small mt-2 text-success">In Stock</p>
-                        </div>
-                        <div class="card-footer d-flex justify-content-between align-items-center">
-                            <button class="btn btn-primary btn-sm"><i class="fas fa-cart-plus banner_button_icon"></i> Add to Cart</button>
-                            <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-heart-fill"></i> Wishlist</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100 w-100">
-                        <img class="card-img-top" src="https://img.lovepik.com/free-png/20210919/lovepik-cotton-short-sleeved-t-shirt-png-image_400477563_wh1200.png" alt="Women's Yoga Pants" style="height: 200px; object-fit: cover;">
-                        
-                        <div class="card-body"><a class="card-title text-decoration-none text-dark" href="product-details.html?id=4">Women's Yoga Pants</a><p class="card-text text-muted mb-1">Lululemon</p><p class="card-text mb-2">$39.99<span class="text-decoration-line-through text-danger ms-2">$33.99</span></p><p class="card-text small">High-waisted yoga pants made from stretchable mate...</p><p class="card-text text-warning mb-0"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> (4.8)</p><p class="card-text small mt-2 text-danger">Out of Stock</p>
-                        </div><div class="card-footer d-flex justify-content-between align-items-center"><button class="btn btn-primary btn-sm"><i class="fas fa-cart-plus banner_button_icon"></i> Add to Cart</button><button class="btn btn-outline-secondary btn-sm"><i class="bi bi-heart-fill"></i> Wishlist</button></div></div></div>
-                <div class="col">
-                    <div class="card h-100 w-100">
-                    <img class="card-img-top" src="https://img.lovepik.com/free-png/20210919/lovepik-cotton-short-sleeved-t-shirt-png-image_400477563_wh1200.png" alt="Hooded Sweatshirt" style="height: 200px; object-fit: cover;">
-                    <div class="card-body"><a class="card-title text-decoration-none text-dark" href="product-details.html?id=5">Hooded Sweatshirt</a><p class="card-text text-muted mb-1">Nike</p><p class="card-text mb-2">$59.99<span class="text-decoration-line-through text-danger ms-2">$47.99</span></p><p class="card-text small">Fleece hoodie with kangaroo pocket and drawstring ...</p><p class="card-text text-warning mb-0"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> (4.6)</p><p class="card-text small mt-2 text-success">In Stock</p>
-                    </div><div class="card-footer d-flex justify-content-between align-items-center"><button class="btn btn-primary btn-sm"><i class="fas fa-cart-plus banner_button_icon"></i> Add to Cart</button><button class="btn btn-outline-secondary btn-sm"><i class="bi bi-heart-fill"></i> Wishlist</button></div></div></div>
-                <div class="col"><div class="card h-100 w-100"><img class="card-img-top" src="https://img.lovepik.com/free-png/20210919/lovepik-cotton-short-sleeved-t-shirt-png-image_400477563_wh1200.png" alt="Summer Floral Dress" style="height: 200px; object-fit: cover;">
-                    <div class="card-body"><a class="card-title text-decoration-none text-dark" href="product-details.html?id=6">Summer Floral Dress</a><p class="card-text text-muted mb-1">Zara</p><p class="card-text mb-2">$34.99</p><p class="card-text small">Lightweight and breathable floral printed dress....</p><p class="card-text text-warning mb-0"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> (4.3)</p><p class="card-text small mt-2 text-success">In Stock</p>
-                    </div><div class="card-footer d-flex justify-content-between align-items-center"><button class="btn btn-primary btn-sm"><i class="fas fa-cart-plus banner_button_icon"></i> Add to Cart</button><button class="btn btn-outline-secondary btn-sm"><i class="bi bi-heart-fill"></i> Wishlist</button></div></div></div>
-                <div class="col"><div class="card h-100 w-100"><img class="card-img-top" src="https://img.lovepik.com/free-png/20210919/lovepik-cotton-short-sleeved-t-shirt-png-image_400477563_wh1200.png" alt="Men's Leather Jacket" style="height: 200px; object-fit: cover;">
-                    <div class="card-body"><a class="card-title text-decoration-none text-dark" href="product-details.html?id=7">Men's Leather Jacket</a><p class="card-text text-muted mb-1">H&amp;M</p><p class="card-text mb-2">$119.99<span class="text-decoration-line-through text-danger ms-2">$89.99</span></p><p class="card-text small">Premium leather jacket with zipper pockets....</p><p class="card-text text-warning mb-0"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> (4.7)</p><p class="card-text small mt-2 text-success">In Stock</p>
-                    </div><div class="card-footer d-flex justify-content-between align-items-center"><button class="btn btn-primary btn-sm"><i class="fas fa-cart-plus banner_button_icon"></i> Add to Cart</button><button class="btn btn-outline-secondary btn-sm"><i class="bi bi-heart-fill"></i> Wishlist</button></div></div></div>
-                <div class="col"><div class="card h-100 w-100"><img class="card-img-top" src="https://img.lovepik.com/free-png/20210919/lovepik-cotton-short-sleeved-t-shirt-png-image_400477563_wh1200.png" alt="Kids' Cartoon T-Shirt" style="height: 200px; object-fit: cover;">
-                    <div class="card-body"><a class="card-title text-decoration-none text-dark" href="product-details.html?id=8">Kids' Cartoon T-Shirt</a><p class="card-text text-muted mb-1">Carter's</p><p class="card-text mb-2">$12.99</p><p class="card-text small">Colorful T-shirt with fun cartoon graphics for kid...</p><p class="card-text text-warning mb-0"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> (4.4)</p><p class="card-text small mt-2 text-success">In Stock</p>
-                    </div><div class="card-footer d-flex justify-content-between align-items-center"><button class="btn btn-primary btn-sm"><i class="fas fa-cart-plus banner_button_icon"></i> Add to Cart</button><button class="btn btn-outline-secondary btn-sm"><i class="bi bi-heart-fill"></i> Wishlist</button></div></div></div>
-                <div class="col"><div class="card h-100 w-100"><img class="card-img-top" src="https://img.lovepik.com/free-png/20210919/lovepik-cotton-short-sleeved-t-shirt-png-image_400477563_wh1200.png" alt="Unisex Tracksuit Set" style="height: 200px; object-fit: cover;">
-                    <div class="card-body"><a class="card-title text-decoration-none text-dark" href="product-details.html?id=9">Unisex Tracksuit Set</a><p class="card-text text-muted mb-1">Adidas</p><p class="card-text mb-2">$89.99<span class="text-decoration-line-through text-danger ms-2">$80.99</span></p><p class="card-text small">Two-piece tracksuit with zip-up jacket and joggers...</p><p class="card-text text-warning mb-0"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> (4.9)</p><p class="card-text small mt-2 text-success">In Stock</p>
-                    </div><div class="card-footer d-flex justify-content-between align-items-center"><button class="btn btn-primary btn-sm"><i class="fas fa-cart-plus banner_button_icon"></i> Add to Cart</button><button class="btn btn-outline-secondary btn-sm"><i class="bi bi-heart-fill"></i> Wishlist</button></div></div></div>
-                <div class="col">
-                    <div class="card h-100 w-100"><img class="card-img-top" src="https://img.lovepik.com/free-png/20210919/lovepik-cotton-short-sleeved-t-shirt-png-image_400477563_wh1200.png" alt="Winter Wool Coat" style="height: 200px; object-fit: cover;">
-                    <div class="card-body"><a class="card-title text-decoration-none text-dark" href="product-details.html?id=10">Winter Wool Coat</a><p class="card-text text-muted mb-1">Mango</p><p class="card-text mb-2">$149.99<span class="text-decoration-line-through text-danger ms-2">$104.99</span></p><p class="card-text small">Elegant long wool coat for winter with button clos...</p><p class="card-text text-warning mb-0"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> (4.6)</p><p class="card-text small mt-2 text-danger">Out of Stock</p>
-                    </div><div class="card-footer d-flex justify-content-between align-items-center"><button class="btn btn-primary btn-sm"><i class="fas fa-cart-plus banner_button_icon"></i> Add to Cart</button><button class="btn btn-outline-secondary btn-sm"><i class="bi bi-heart-fill"></i> Wishlist</button>
-                
-                </div>
-                    </div>
-                </div>
-            
+                {% endfor %}           
             
             </div>
 		</div>
 
 		<!-- Catagory post  -->
-
-		<div class="container-fluid">
-			
+        <div class="container-fluid">
 			<div class="row">
-				 {% for category in categories %}
-                    <div class="col">
-                        <a href="{% url 'category_products' category.slug  %}" class="category-name">
-                                <h4>{{category.name}}</h4>
-                                <h6>{{ category.product_count }} items</h6>
-                                 <img class="image-resize" src="{{ category.category_image.url }}" alt="{{category.name}}">
-                            </a>
-                       
+                {% for category in categories|slice:"4:6" %}
+                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 py-3">
+                        <img class="image-resize" src="{{ category.category_image.url }}" alt="{{ category.name }}">
                     </div>
-                
                 {% endfor %}
 			</div>
-		
 		</div>
-
 		<!-- Product for arrivals -->
 
 		<div class="container-fluid py-5">
@@ -266,83 +252,82 @@
 				class="row row-cols-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 g-4 justify-content-center"
 				id="arrivals-cards">
                 
-                <div class="col">
-                    <div class="card h-100 w-100"><img class="card-img-top" src="https://img.lovepik.com/free-png/20210919/lovepik-cotton-short-sleeved-t-shirt-png-image_400477563_wh1200.png" alt="Classic White T-Shirt" style="height: 200px; object-fit: cover;"><div class="card-body">
-                        <h5 class="card-title">Classic White T-Shirt</h5>
-                        <p class="card-text text-muted mb-1">Hanes</p>
-                        <p class="card-text mb-2">$14.99</p>
-                        <p class="card-text small">100% cotton crew-neck T-shirt with a regular fit....</p>
-                        <p class="card-text text-warning mb-0">
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i> (4.5)
-                        </p>
-                        <p class="card-text small mt-2 text-success">In Stock</p>
+                {% for product in new_products %}
+                    <div class="col col-sm-6 col-md-4 col-lg-4  col-xl-4">
+                        <div class="card h-100">
+                            {% if product.slug %}
+                                <a href="{% url 'product_detail' product.slug %}">
+                                    <img class="card-img-top" src="{{product.images.first.image_path.url }}" alt="{{ product.name }}" style="height: 500px; object-fit: cover;">
+                                </a>
+                            {% else %}
+                                <img class="card-img-top" src="{{product.images.first.image_path.url }}" alt="{{ product.name }}" style="height: 500px; object-fit: cover;">
+                            
+                            {% endif %}
+							<span class="rotated-badge tomato_badge overflow-hidden">New Arrival</span>
+                            <div class="card-body">
+                                {% if product.slug %}
+                                    <a href="{% url 'product_detail' product.slug %}">
+                                        <h5 class="card-title">{{ product.name }}</h5>
+                                    </a>
+                                {% else %}
+                                    <h5 class="card-title">{{ product.name }}</h5>
+                                {% endif %}
+                                <p class="card-text text-muted mb-1">Brand A</p>
+                                <p class="card-text mb-2">
+                                    ${{ product.price }}
+                                    <span
+                                        class="text-decoration-line-through text-danger ms-2"
+                                        > ${{ product.price }}</span
+                                    >
+                                </p>
+                                <p class="card-text small">
+                                    {{ product.description |truncatechars:100 }}
+                                </p>
+                                <p class="card-text text-warning mb-0">
+                                    
+                                
+                                        {% for i in "12345" %}
+                                            {% if forloop.counter <= product.full_star %}
+                                                <i class="bi bi-star-fill"></i>
+                                            {% elif product.half_star == 1 and forloop.counter == product.full_star|add:"1" %}
+                                                <i class="bi bi-star-half"></i>
+                                            {% else %}
+                                                <i class="bi bi-star"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                        
+                                    {{ product.rating }}
+                                </p>
+                                <p class="card-text small mt-2 text-success">In Stock</p>
+                            </div>
+                            <div
+                                class="card-footer d-flex justify-content-between align-items-center"
+                            >
+                                <a href="{% url 'add_cart' product.slug %}" >
+                                    <button class="btn btn-primary btn-sm" >
+                                        <i class="fas fa-cart-plus banner_button_icon"></i> Add to Cart
+                                    </button>
+                                </a>
+                                    <a href="{% url 'product_wishlist' product.slug %}" ></a>
+                                    <button class="btn btn-outline-secondary btn-sm">
+                                        <i class="bi bi-heart-fill"></i> Wishlist
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-footer d-flex justify-content-between align-items-center">
-                        <button class="btn btn-primary btn-sm">
-                            <i class="fas fa-cart-plus banner_button_icon"></i> Add to Cart
-                        </button>
-                        <button class="btn btn-outline-secondary btn-sm">
-                            <i class="bi bi-heart-fill"></i> Wishlist
-                        </button>
-                    </div></div></div>
-                <div class="col">
-                    <div class="card h-100 w-100">
-                        <img class="card-img-top" src="https://img.lovepik.com/free-png/20210919/lovepik-cotton-short-sleeved-t-shirt-png-image_400477563_wh1200.png" alt="Slim Fit Jeans" style="height: 200px; object-fit: cover;"><div class="card-body">
-                        <h5 class="card-title">Slim Fit Jeans</h5>
-                        <p class="card-text text-muted mb-1">Levi's</p>
-                        <p class="card-text mb-2">$49.99<span class="text-decoration-line-through text-danger ms-2">$44.99</span></p>
-                        <p class="card-text small">Stretchable denim with a slim fit for daily wear....</p>
-                        <p class="card-text text-warning mb-0"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> (4.7)</p>
-                        <p class="card-text small mt-2 text-success">In Stock</p>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between align-items-center">
-                        <button class="btn btn-primary btn-sm"><i class="fas fa-cart-plus banner_button_icon"></i> Add to Cart</button><button class="btn btn-outline-secondary btn-sm"><i class="bi bi-heart-fill"></i> Wishlist</button></div></div></div>
-                <div class="col">
-                    <div class="card h-100 w-100"><img class="card-img-top" src="https://img.lovepik.com/free-png/20210919/lovepik-cotton-short-sleeved-t-shirt-png-image_400477563_wh1200.png" alt="Men's Formal Shirt" style="height: 200px; object-fit: cover;"><div class="card-body">
-                        <h5 class="card-title">Men's Formal Shirt</h5>
-                        <p class="card-text text-muted mb-1">Arrow</p>
-                        <p class="card-text mb-2">$29.99<span class="text-decoration-line-through text-danger ms-2">$28.49</span></p>
-                        <p class="card-text small">Long-sleeved, button-up shirt made with breathable...</p>
-                        <p class="card-text text-warning mb-0"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> (4.2)</p>
-                        <p class="card-text small mt-2 text-success">In Stock</p>
-                    </div><div class="card-footer d-flex justify-content-between align-items-center"><button class="btn btn-primary btn-sm"><i class="fas fa-cart-plus banner_button_icon"></i> Add to Cart</button><button class="btn btn-outline-secondary btn-sm"><i class="bi bi-heart-fill"></i> Wishlist</button></div></div></div>
-                <div class="col">
-                    <div class="card h-100 w-100"><img class="card-img-top" src="https://img.lovepik.com/free-png/20210919/lovepik-cotton-short-sleeved-t-shirt-png-image_400477563_wh1200.png" alt="Women's Yoga Pants" style="height: 200px; object-fit: cover;"><div class="card-body">
-                        <h5 class="card-title">Women's Yoga Pants</h5>
-                        <p class="card-text text-muted mb-1">Lululemon</p>
-                        <p class="card-text mb-2">$39.99<span class="text-decoration-line-through text-danger ms-2">$33.99</span></p>
-                        <p class="card-text small">High-waisted yoga pants made from stretchable mate...</p>
-                        <p class="card-text text-warning mb-0"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> (4.8)</p>
-                        <p class="card-text small mt-2 text-danger">Out of Stock</p>
-                    </div><div class="card-footer d-flex justify-content-between align-items-center"><button class="btn btn-primary btn-sm"><i class="fas fa-cart-plus banner_button_icon"></i> Add to Cart</button><button class="btn btn-outline-secondary btn-sm"><i class="bi bi-heart-fill"></i> Wishlist</button></div></div></div>
-                <div class="col">
-                    <div class="card h-100 w-100"><img class="card-img-top" src="https://img.lovepik.com/free-png/20210919/lovepik-cotton-short-sleeved-t-shirt-png-image_400477563_wh1200.png" alt="Hooded Sweatshirt" style="height: 200px; object-fit: cover;"><div class="card-body">
-                        <h5 class="card-title">Hooded Sweatshirt</h5>
-                        <p class="card-text text-muted mb-1">Nike</p>
-                        <p class="card-text mb-2">$59.99<span class="text-decoration-line-through text-danger ms-2">$47.99</span></p>
-                        <p class="card-text small">Fleece hoodie with kangaroo pocket and drawstring ...</p>
-                        <p class="card-text text-warning mb-0"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> (4.6)</p>
-                        <p class="card-text small mt-2 text-success">In Stock</p>
-                    </div><div class="card-footer d-flex justify-content-between align-items-center"><button class="btn btn-primary btn-sm"><i class="fas fa-cart-plus banner_button_icon"></i> Add to Cart</button><button class="btn btn-outline-secondary btn-sm"><i class="bi bi-heart-fill"></i> Wishlist</button></div></div></div>
-                <div class="col">
-                    <div class="card h-100 w-100"><img class="card-img-top" src="https://img.lovepik.com/free-png/20210919/lovepik-cotton-short-sleeved-t-shirt-png-image_400477563_wh1200.png" alt="Summer Floral Dress" style="height: 200px; object-fit: cover;"><div class="card-body">
-                        <h5 class="card-title">Summer Floral Dress</h5>
-                        <p class="card-text text-muted mb-1">Zara</p><p class="card-text mb-2">$34.99</p><p class="card-text small">Lightweight and breathable floral printed dress....</p><p class="card-text text-warning mb-0"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> (4.3)</p><p class="card-text small mt-2 text-success">In Stock</p>
-                    </div><div class="card-footer d-flex justify-content-between align-items-center"><button class="btn btn-primary btn-sm"><i class="fas fa-cart-plus banner_button_icon"></i> Add to Cart</button><button class="btn btn-outline-secondary btn-sm"><i class="bi bi-heart-fill"></i> Wishlist</button></div></div></div>
-                <div class="col">
-                    <div class="card h-100 w-100"><img class="card-img-top" src="https://img.lovepik.com/free-png/20210919/lovepik-cotton-short-sleeved-t-shirt-png-image_400477563_wh1200.png" alt="Men's Leather Jacket" style="height: 200px; object-fit: cover;"><div class="card-body">
-                        <h5 class="card-title">Men's Leather Jacket</h5>
-                        <p class="card-text text-muted mb-1">H&amp;M</p><p class="card-text mb-2">$119.99<span class="text-decoration-line-through text-danger ms-2">$89.99</span></p><p class="card-text small">Premium leather jacket with zipper pockets....</p><p class="card-text text-warning mb-0"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> (4.7)</p><p class="card-text small mt-2 text-success">In Stock</p>
-                    </div><div class="card-footer d-flex justify-content-between align-items-center"><button class="btn btn-primary btn-sm"><i class="fas fa-cart-plus banner_button_icon"></i> Add to Cart</button><button class="btn btn-outline-secondary btn-sm"><i class="bi bi-heart-fill"></i> Wishlist</button></div></div></div><div class="col"><div class="card h-100 w-100"><img class="card-img-top" src="https://img.lovepik.com/free-png/20210919/lovepik-cotton-short-sleeved-t-shirt-png-image_400477563_wh1200.png" alt="Kids' Cartoon T-Shirt" style="height: 200px; object-fit: cover;"><div class="card-body"><h5 class="card-title">Kids' Cartoon T-Shirt</h5><p class="card-text text-muted mb-1">Carter's</p><p class="card-text mb-2">$12.99</p><p class="card-text small">Colorful T-shirt with fun cartoon graphics for kid...</p><p class="card-text text-warning mb-0"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> (4.4)</p><p class="card-text small mt-2 text-success">In Stock</p>
-                        </div><div class="card-footer d-flex justify-content-between align-items-center"><button class="btn btn-primary btn-sm"><i class="fas fa-cart-plus banner_button_icon"></i> Add to Cart</button><button class="btn btn-outline-secondary btn-sm"><i class="bi bi-heart-fill"></i> Wishlist</button></div></div></div><div class="col"><div class="card h-100 w-100"><img class="card-img-top" src="https://img.lovepik.com/free-png/20210919/lovepik-cotton-short-sleeved-t-shirt-png-image_400477563_wh1200.png" alt="Unisex Tracksuit Set" style="height: 200px; object-fit: cover;"><div class="card-body"><h5 class="card-title">Unisex Tracksuit Set</h5><p class="card-text text-muted mb-1">Adidas</p><p class="card-text mb-2">$89.99<span class="text-decoration-line-through text-danger ms-2">$80.99</span></p><p class="card-text small">Two-piece tracksuit with zip-up jacket and joggers...</p><p class="card-text text-warning mb-0"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> (4.9)</p><p class="card-text small mt-2 text-success">In Stock</p>
-                        </div><div class="card-footer d-flex justify-content-between align-items-center"><button class="btn btn-primary btn-sm"><i class="fas fa-cart-plus banner_button_icon"></i> Add to Cart</button><button class="btn btn-outline-secondary btn-sm"><i class="bi bi-heart-fill"></i> Wishlist</button></div></div></div><div class="col"><div class="card h-100 w-100"><img class="card-img-top" src="https://img.lovepik.com/free-png/20210919/lovepik-cotton-short-sleeved-t-shirt-png-image_400477563_wh1200.png" alt="Winter Wool Coat" style="height: 200px; object-fit: cover;"><div class="card-body"><h5 class="card-title">Winter Wool Coat</h5><p class="card-text text-muted mb-1">Mango</p><p class="card-text mb-2">$149.99<span class="text-decoration-line-through text-danger ms-2">$104.99</span></p><p class="card-text small">Elegant long wool coat for winter with button clos...</p><p class="card-text text-warning mb-0"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> (4.6)</p><p class="card-text small mt-2 text-danger">Out of Stock</p>
-                        </div><div class="card-footer d-flex justify-content-between align-items-center"><button class="btn btn-primary btn-sm"><i class="fas fa-cart-plus banner_button_icon"></i> Add to Cart</button><button class="btn btn-outline-secondary btn-sm"><i class="bi bi-heart-fill"></i> Wishlist</button></div></div></div>
-        
-        </div>
+                {% endfor %} 
+                
+            </div>
 		</div>
-
+        <!-- Catagory post  -->
+        <div class="container-fluid">
+			<div class="row">
+                {% for category in categories|slice:"6:8" %}
+                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 py-3">
+                        <img class="image-resize" src="{{ category.category_image.url }}" alt="{{ category.name }}">
+                    </div>
+                {% endfor %}
+			</div>
+		</div>
 {% endblock %}

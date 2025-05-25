@@ -52,9 +52,12 @@ def remove_cart(request, product_slug):
 
 def cart_detail(request, total=0, quantity=0, cart_items=None):
     if request.user.is_authenticated:
-        cart = get_object_or_404(Cart, user=request.user)
+        #cart = get_object_or_404(Cart, user=request.user)
+        cart, created = Cart.objects.get_or_create(user=request.user)
     else:
-        cart = get_object_or_404(Cart, session_key=get_session_key(request))
+        #cart = get_object_or_404(Cart, session_key=get_session_key(request))
+        cart, created = Cart.objects.get_or_create( session_key=get_session_key(request))
+
 
     cart_items = CartProduct.objects.filter(cart=cart).select_related("product")
     total = 0

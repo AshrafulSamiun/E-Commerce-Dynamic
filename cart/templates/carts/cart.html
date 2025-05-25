@@ -7,9 +7,9 @@
 
 
 {% if not cart_items %}
-	<h2 class="text-center">Your Shopping Cart is Empty</h2>
+	<h2 class="text-center text-warning">Your Shopping Cart is Empty</h2>
 	<br>
-	<div class="text-center">
+	<div class="text-center mb-5">
 		<a href="{% url 'home' %}" class="btn btn-primary">Continue Shopping</a>
 	</div>
 {% else %}
@@ -21,7 +21,7 @@
 					<h2>Your Cart</h2>
                     {% for cart_item in cart_items %}
                         <div class="cart-item row align-items-center">
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <a href="{% url 'product_detail' cart_item.product.slug %}" class="product-image">
                                     <img
                                         src="{{ cart_item.product.images.first.image_path.url }}"
@@ -30,7 +30,7 @@
                                     />
                                 </a>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-7">
                                 <h5>{{ cart_item.product.name }}</h5>
                                 <p class="text-muted">Size: M, Color: Blue</p>
                                 <p class="font-weight-bold">{{ cart_item.product.price }}</p>

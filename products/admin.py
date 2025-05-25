@@ -67,7 +67,7 @@ class ColorSizeAdmin(admin.ModelAdmin):
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
     search_fields = ['name','description', 'slug']
-    list_display = ('name', 'logo_url', 'description', 'slug')      
+    list_display = ('name',  'description', 'slug')      
 
     
     def save_model(self, request, obj, form, change):
