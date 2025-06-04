@@ -13,102 +13,79 @@
 						<h2>Filters</h2>
 						<div class="filter-title">Price</div>
 						<div class="filter-options">
+							{% for label, count in price_range_counts.items %}
 							<div class="d-flex justify-content-between align-items-center">
-								<label><input type="checkbox" /> $0 - $50</label>
-								<span>(12)</span>
+								<label><input type="checkbox" /> {{ label}}</label>
+								<span>({{ count }})</span>
 							</div>
-							<div class="d-flex justify-content-between align-items-center">
-								<label><input type="checkbox" /> $50 - $100</label>
-								<span>(35)</span>
-							</div>
-							<div class="d-flex justify-content-between align-items-center">
-								<label><input type="checkbox" /> $100+</label>
-								<span>(21)</span>
-							</div>
+							{% endfor %}
+							
 						</div>
 					</div>
 				
 					<div class="filter-section">
 						<div class="filter-title">Category</div>
+						
+						
 						<div class="filter-options">
+							{% for category, count in category_counts.items  %}
 							<div class="d-flex justify-content-between align-items-center">
-								<label><input type="checkbox" /> T-Shirts</label>
-								<span>(45)</span>
+								<label><input type="checkbox" />
+									<a href="" class="text-decoration-none text-black"> {{ category }}</a>
+								</label>
+								<span>({{ count	}})</span>
 							</div>
-							<div class="d-flex justify-content-between align-items-center">
-								<label><input type="checkbox" /> Jeans</label>
-								<span>(30)</span>
-							</div>
-							<div class="d-flex justify-content-between align-items-center">
-								<label><input type="checkbox" /> Dresses</label>
-								<span>(25)</span>
-							</div>
-							<div class="d-flex justify-content-between align-items-center">
-								<label><input type="checkbox" /> Sweaters</label>
-								<span>(18)</span>
-							</div>
+							{% endfor %}
+							
 						</div>
 					</div>
 				
 					<div class="filter-section">
 						<div class="filter-title">Rating</div>
 						<div class="filter-options">
-							<div class="d-flex justify-content-between align-items-center">
-								<label><input type="checkbox" /> ★★★★★</label>
-								<span>(60)</span>
-							</div>
-							<div class="d-flex justify-content-between align-items-center">
-								<label><input type="checkbox" /> ★★★★☆</label>
-								<span>(50)</span>
-							</div>
-							<div class="d-flex justify-content-between align-items-center">
-								<label><input type="checkbox" /> ★★★☆☆</label>
-								<span>(35)</span>
-							</div>
-							<div class="d-flex justify-content-between align-items-center">
-								<label><input type="checkbox" /> ★★★☆☆</label>
-								<span>(35)</span>
-							</div>
-							<div class="d-flex justify-content-between align-items-center">
-								<label><input type="checkbox" /> ★★★☆☆</label>
-								<span>(35)</span>
-							</div>
+							{% for rating, count in rating_counts.items %}
+								<div class="d-flex justify-content-between align-items-center">
+									<label><input type="checkbox" />
+										{% for i in "12345"|slice:":5" %}
+											{% if forloop.counter <= rating %}
+												★
+											{% else %}
+												☆
+											{% endif %}
+										{% endfor %}
+									
+									
+									</label>
+									<span>({{ count }})</span>
+								</div>
+							{% endfor %}
+							
 						</div>
 					</div>
 				
 					<div class="filter-section">
 						<div class="filter-title">Discount</div>
 						<div class="filter-options">
-							<div class="d-flex justify-content-between align-items-center">
-								<label><input type="checkbox" /> 5%-10%</label>
-								<span>(10)</span>
-							</div>
-							<div class="d-flex justify-content-between align-items-center">
-								<label><input type="checkbox" /> 10%-20%</label>
-								<span>(25)</span>
-							</div>
-							<div class="d-flex justify-content-between align-items-center">
-								<label><input type="checkbox" /> 20%+ </label>
-								<span>(15)</span>
-							</div>
+							{% for discount, count in discount_counts.items %}
+								<div class="d-flex justify-content-between align-items-center">
+									<label><input type="checkbox" /> {{ discount }}</label>
+									<span>({{ count }})</span>
+								</div>
+							{% endfor %}
+							
 						</div>
 					</div>
 				
 					<div class="filter-section">
 						<div class="filter-title">Color</div>
 						<div class="filter-options">
-							<div class="d-flex justify-content-between align-items-center">
-								<label><input type="checkbox" /> Red</label>
-								<span>(56)</span>
-							</div>
-							<div class="d-flex justify-content-between align-items-center">
-								<label><input type="checkbox" /> Blue</label>
-								<span>(10)</span>
-							</div>
-							<div class="d-flex justify-content-between align-items-center">
-								<label><input type="checkbox" /> Green</label>
-								<span>(50)</span>
-							</div>
+							{% for color, count in color_counts.items %}
+								<div class="d-flex justify-content-between align-items-center">
+									<label><input type="checkbox" /> {{ color }}</label>
+									<span>({{ count}})</span>
+								</div>
+							{% endfor %}
+							
 						</div>
 					</div>
 				</div>
@@ -145,6 +122,13 @@
                                                 <img class="card-img-top" src="{{product.images.first.image_path.url }}" alt="{{ product.name }}" style="height: 500px; object-fit: cover;">
                                             
                                             {% endif %}
+											
+
+											{% if product.is_best_selling %}
+												<span class="rotated-badge yellow_badge overflow-hidden">Best Selling</span>
+											{% elif product.is_new_arrival %}
+												<span class="rotated-badge tomato_badge overflow-hidden">New Arrival</span>
+											{% endif %}
                                             <div class="card-body">
                                                 {% if product.slug %}
                                                     <a href="{% url 'product_detail' product.slug %}">
@@ -155,11 +139,11 @@
                                                 {% endif %}
                                                 <p class="card-text text-muted mb-1">Brand A</p>
                                                 <p class="card-text mb-2">
-                                                    ${{ product.price }}
-                                                    <span
-                                                        class="text-decoration-line-through text-danger ms-2"
-                                                        > ${{ product.price }}</span
-                                                    >
+                                                    ${{ product.actual_price | floatformat:0 }}
+													{% if product.discount_percentage %}
+														<span class="text-decoration-line-through text-danger ms-2"> ${{ product.price | floatformat:0 }}</span>
+													{% endif %}
+                                                    
                                                 </p>
                                                 <p class="card-text small">
                                                     {{ product.description |truncatechars:100 }}

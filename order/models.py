@@ -4,18 +4,19 @@ from django.db import models
 from django.db import models
 
 from accounts.models import CustomUser
-from products.models import Product, TimeStampedModel
+from products.models import Product, TimeStampModel
 
 
-class Payment(TimeStampedModel):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+class Payment(TimeStampModel):
+    user = models.ForeignKey(CustomUser, related_name="payments", on_delete=models.CASCADE)
     payment_id = models.CharField(max_length=100)
     payment_method = models.CharField(max_length=100)
-    amount_paid = models.CharField(max_length=100)
+    amount_paid = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.CharField(max_length=100)
 
 
-class Order(TimeStampedModel):
+
+class Order(TimeStampModel):
     STATUS = (
         ("New", "New"),
         ("Accepted", "Accepted"),
@@ -23,7 +24,7 @@ class Order(TimeStampedModel):
         ("Cancelled", "Cancelled"),
     )
 
-    user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(CustomUser, related_name="orders", on_delete=models.SET_NULL, null=True)
     payment = models.ForeignKey(
         Payment, on_delete=models.SET_NULL, blank=True, null=True
     )
@@ -37,23 +38,23 @@ class Order(TimeStampedModel):
     city = models.CharField(max_length=50)
     order_note = models.CharField(max_length=100, blank=True)
     order_total = models.DecimalField(max_digits=10, decimal_places=2)
-    status = models.CharField(max_length=10, choices=STATUS, default="New")
+    status = models.CharField(max_length=50, choices=STATUS, default="New")
     is_ordered = models.BooleanField(default=False)
 
     def full_address(self):
         return f"{self.address_line_1} {self.address_line_2}"
 
 
-class OrderProduct(TimeStampedModel):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+class OrderProduct(TimeStampModel):
+    order = models.ForeignKey(Order, related_name="order_products", on_delete=models.CASCADE)
     payment = models.ForeignKey(
-        Payment, on_delete=models.SET_NULL, blank=True, null=True
+        Payment, on_delete=models.SET_NULL, related_name="order_products", blank=True, null=True
     )
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
     product_price = models.DecimalField(max_digits=10, decimal_places=2)
-    ordered = models.BooleanField(default=False)
+    is_ordered = models.BooleanField(default=False)
+   
 
     def __str__(self):
         return self.product.name

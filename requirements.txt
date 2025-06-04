@@ -1,1 +1,2 @@
 django-environ==0.12.0
+sslcommerz-python-api==1.0.1

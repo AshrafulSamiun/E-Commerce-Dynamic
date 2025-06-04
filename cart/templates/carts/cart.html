@@ -85,12 +85,10 @@
 								<span>Total</span>
 								<span>{{grand_total |floatformat:2}}</span>
 							</div>
-							<button
-								onclick="window.location.href='checkout.html'"
-								class="btn btn-primary btn-block mt-3"
-							>
+							
+                            <a href="{% url 'place_order' %}" class="btn btn-primary btn-block mt-3 text-white">
 								Proceed to Checkout
-							</button>
+							</a>
 						</div>
 					</div>
 				</div>

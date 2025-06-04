@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'accounts',
     'products',
     'cart',
+    'order',
 ]
 
 MIDDLEWARE = [
@@ -73,6 +74,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'products.context_processors.global_context',
             ],
         },
     },
@@ -176,6 +178,10 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD =env("EMAIL_HOST_PASSWORD")
+
+SSLCOMMERZ_IS_SANDBOX: bool = env("SSLCOMMERZ_IS_SANDBOX")
+SSLCOMMERZ_STORE_ID = env("SSLCOMMERZ_STORE_ID")
+SSLCOMMERZ_STORE_PASS = env("SSLCOMMERZ_STORE_PASS")
 
 DELIVERY_CHARGE = Decimal(env("DELIVERY_CHARGE"))
 DATA_UPLOAD_MAX_MEMORY_SIZE = 100 * 1024 * 1024  # 4MB

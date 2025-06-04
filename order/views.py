@@ -9,42 +9,44 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from sslcommerz_python_api import SSLCSession
 
-from carts.models import Cart, CartItem
-from carts.utils import get_session_key
+from cart.models import Cart, CartProduct
+from cart.utils import get_session_key
 from products.models import Product
 
 from .models import Order, OrderProduct, Payment
 from .utils import send_order_confirmation_email
-
+import random 
 
 @csrf_exempt
-@login_required
-def place_order(
-    request,
-    total=0,
-    quantity=0,
-):
-    current_user = request.user
+#@login_required
+def place_order( request, total=0,quantity=0):
+    if request.method != "POST":
+        pass
 
-    cart = get_object_or_404(Cart, session_key=get_session_key(request))
-    cart_items = CartItem.objects.filter(cart=cart).select_related("product")
-    cart_count = cart_items.count()
+    current_user = request.user
+    if current_user.is_authenticated:
+        cart= get_object_or_404(Cart, user=current_user)
+    else:
+        cart = get_object_or_404(Cart, session_key=get_session_key(request))
+
+    cart_products = CartProduct.objects.filter(cart=cart).select_related("product")
+    cart_count = cart_products.count()
     if cart_count <= 0:
         return redirect("home")
 
     grand_total = 0
     total = 0
-    for cart_item in cart_items:
+    for cart_item in cart_products:
         total += cart_item.product.price * cart_item.quantity
         quantity += cart_item.quantity
-    grand_total = float(total) + settings.DELIVERY_CHARGE
+    grand_total = total + settings.DELIVERY_CHARGE
 
     if request.method == "POST":
-        payment_option = request.POST.get("flexRadioDefault", "cash")  # sslcommercez
+        payment_option = request.POST.get("paymentMethod", "cash")  # sslcommercez
 
         try:
             current_date = datetime.date.today()
-            order_number = current_date.strftime("%Y%m%d") + str(cart_count)
+            order_number = current_date.strftime("%Y%m%d") + str(random.random())
 
             order = Order.objects.create(
                 user=current_user,
@@ -61,13 +63,13 @@ def place_order(
                 order_number=order_number,
             )
 
-            for cart_item in cart_items:
+            for cart_item in cart_products:
                 OrderProduct.objects.create(
                     order=order,
                     product=cart_item.product,
                     quantity=cart_item.quantity,
                     product_price=cart_item.product.price,
-                    user=current_user,
+                   # user=current_user,
                 )
 
                 product = Product.objects.get(id=cart_item.product.id)
@@ -95,8 +97,9 @@ def place_order(
 
     context = {
         "user": current_user,
-        "cart_items": cart_items,
+        "cart_items": cart_products,
         "grand_total": grand_total,
+        "delivery_charge": settings.DELIVERY_CHARGE,
         "total": total,
     }
     return render(request, "orders/checkout.html", context)

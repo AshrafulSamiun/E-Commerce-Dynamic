@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 from django.conf import settings
 # Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
@@ -50,12 +51,15 @@ def remove_cart(request, product_slug):
     return redirect(url)
 
 
-def cart_detail(request, total=0, quantity=0, cart_items=None):
+def cart_detail(request, total=0, quantity=0, cart_items=None):    
+
     if request.user.is_authenticated:
+        #return HttpResponse("This is a placeholder for the cart detail view. Implement your logic here.")
         #cart = get_object_or_404(Cart, user=request.user)
         cart, created = Cart.objects.get_or_create(user=request.user)
     else:
         #cart = get_object_or_404(Cart, session_key=get_session_key(request))
+        #return HttpResponse(get_session_key(request))
         cart, created = Cart.objects.get_or_create( session_key=get_session_key(request))
 
 

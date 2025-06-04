@@ -126,63 +126,73 @@
 					<h2>Products</h2> 
 					
 					<div class="row">
-						<div class="col-sm-6 col-lg-12">
-							<div class="container-fluid pb-5">
-								
-								<div
-									class="row row-cols-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 g-4 justify-content-center"
-									id="filter-cards">
+						{% if products %}
+							<div class="col-sm-12 col-lg-12">
+								<div class="container-fluid pb-5">
+									
+									<div
+										class="row row-cols-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 g-4 justify-content-center"
+										id="filter-cards">
 
-                                     {% for product in products %}
-                                        <div class="col">
-                                            <div class="card h-100 w-100">
-                                                {% if product.slug %}
-                                                    <a href="{% url 'product_detail' product.slug %}">
-                                                        <img class="card-img-top" src="{{product.images.first.image_path.url }}" alt="{{ product.name }}" style="height: 500px; object-fit: cover;">
-                                                    </a>
-												{% else %}
-													<img class="card-img-top" src="{{product.images.first.image_path.url }}" alt="{{ product.name }}" style="height: 500px; object-fit: cover;">
-												
-												{% endif %}
-                                                    
-                                                    <div class="card-body">
-                                                   
+										{% for product in products %}
+											<div class="col">
+												<div class="card h-100 w-100">
+													{% if product.slug %}
+														<a href="{% url 'product_detail' product.slug %}">
+															<img class="card-img-top" src="{{product.images.first.image_path.url }}" alt="{{ product.name }}" style="height: 500px; object-fit: cover;">
+														</a>
+													{% else %}
+														<img class="card-img-top" src="{{product.images.first.image_path.url }}" alt="{{ product.name }}" style="height: 500px; object-fit: cover;">
+													
+													{% endif %}
+														
+														<div class="card-body">
+													
 
-                                                    {% if product.slug %}
-                                                        <a href="{% url 'product_detail' product.slug %}">
-                                                           <h5 class="card-title">{{ product.name }}</h5>
-                                                        </a>
-                                                    {% else %}
-                                                        <h5 class="card-title">{{ product.name }}</h5>
-                                                    {% endif %}
-                                                   
-                                                    <p class="card-text text-muted mb-1">{{ product.category.category_name }}</p>
-                                                    <p class="card-text mb-2">${{product.price}}</p>
-                                                    <p class="card-text small">{{product.description}}</p>
-                                                    <p class="card-text text-warning mb-0">
-                                                        <i class="bi bi-star-fill"></i>
-                                                        <i class="bi bi-star-fill"></i>
-                                                        <i class="bi bi-star-fill"></i>
-                                                        <i class="bi bi-star-fill"></i>
-                                                        <i class="bi bi-star-fill"></i>({{product.rating}})
-                                                    </p>
-                                                    <p class="card-text small mt-2 text-success">In Stock</p>
-                                                </div>
-                                                <div class="card-footer d-flex justify-content-between align-items-center">
-                                                    <button class="btn btn-primary btn-sm">
-                                                        <i class="fas fa-cart-plus banner_button_icon"></i> Add to Cart
-                                                    </button>
-                                                    <button class="btn btn-outline-secondary btn-sm">
-                                                        <i class="bi bi-heart-fill"></i> Wishlist
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                     {% endfor %}
-                                     
-                                </div>
+														{% if product.slug %}
+															<a href="{% url 'product_detail' product.slug %}">
+															<h5 class="card-title">{{ product.name }}</h5>
+															</a>
+														{% else %}
+															<h5 class="card-title">{{ product.name }}</h5>
+														{% endif %}
+													
+														<p class="card-text text-muted mb-1">{{ product.category.category_name }}</p>
+														<p class="card-text mb-2">${{product.price}}</p>
+														<p class="card-text small">{{product.description}}</p>
+														<p class="card-text text-warning mb-0">
+															<i class="bi bi-star-fill"></i>
+															<i class="bi bi-star-fill"></i>
+															<i class="bi bi-star-fill"></i>
+															<i class="bi bi-star-fill"></i>
+															<i class="bi bi-star-fill"></i>({{product.rating}})
+														</p>
+														<p class="card-text small mt-2 text-success">In Stock</p>
+													</div>
+													<div class="card-footer d-flex justify-content-between align-items-center">
+														<button class="btn btn-primary btn-sm">
+															<i class="fas fa-cart-plus banner_button_icon"></i> Add to Cart
+														</button>
+														<button class="btn btn-outline-secondary btn-sm">
+															<i class="bi bi-heart-fill"></i> Wishlist
+														</button>
+													</div>
+												</div>
+											</div>
+										{% endfor %}
+										
+									</div>
+								</div>
+						
 							</div>
-					</div>
+						
+						{% else %}
+							<div class="col-12">
+								<div class="alert alert-info text-center" role="alert">
+									No products found in this category.
+								</div>
+							</div>
+						{% endif %}
 				</div>
 			</div>
 		</div>
