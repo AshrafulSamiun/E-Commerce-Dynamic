@@ -1,6 +1,7 @@
 from products.models import Category
 from cart.models import Cart, CartProduct
 from cart.utils import get_session_key  # adjust import if needed
+from django.conf import settings
 
 def global_context(request):
     categories = Category.objects.all()
@@ -24,4 +25,5 @@ def global_context(request):
         'menu_categories': categories,
         'cart_total_quantity': cart_total_quantity,
         'cart_total_amount': cart_total_amount,
+         "MEDIA_URL": settings.MEDIA_URL,
     }

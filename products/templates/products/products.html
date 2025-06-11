@@ -13,10 +13,13 @@
 						<h2>Filters</h2>
 						<div class="filter-title">Price</div>
 						<div class="filter-options">
-							{% for label, count in price_range_counts.items %}
+							{% for key, value in price_range_counts.items %}
 							<div class="d-flex justify-content-between align-items-center">
-								<label><input type="checkbox" /> {{ label}}</label>
-								<span>({{ count }})</span>
+								<label><input type="checkbox" />
+									<a href="{% url 'price_range_products' value.slug %}" class="text-decoration-none text-black">	
+										{{ value.label}} 
+									</a></label>
+								<span>({{ value.count }})</span>
 							</div>
 							{% endfor %}
 							
@@ -28,10 +31,22 @@
 						
 						
 						<div class="filter-options">
-							{% for category, count in category_counts.items  %}
+							{% for category, slug, count in category_data %}
 							<div class="d-flex justify-content-between align-items-center">
 								<label><input type="checkbox" />
-									<a href="" class="text-decoration-none text-black"> {{ category }}</a>
+									{% if category == "All Products" %}
+										<a href="{% url 'all_products' %}" class="text-decoration-none text-black">
+											{{ category }}
+										</a>
+									{% else %}
+										{% if slug %}
+											<a href="{% url 'category_products' slug %}" class="text-decoration-none text-black">
+												{{ category }}
+											</a>
+										{% else %}
+											{{ category }}
+										{% endif %}
+									{% endif %}
 								</label>
 								<span>({{ count	}})</span>
 							</div>
@@ -46,17 +61,19 @@
 							{% for rating, count in rating_counts.items %}
 								<div class="d-flex justify-content-between align-items-center">
 									<label><input type="checkbox" />
-										{% for i in "12345"|slice:":5" %}
-											{% if forloop.counter <= rating %}
-												★
-											{% else %}
-												☆
-											{% endif %}
-										{% endfor %}
+										<a href="{% url 'rating_products' rating %}" class="text-decoration-none text-black" style="color:gold !important">
+											{% for i in "12345"|slice:":5" %}
+												{% if forloop.counter <= rating %}
+													★
+												{% else %}
+													☆
+												{% endif %}
+											{% endfor %}
+										</a>
 									
 									
 									</label>
-									<span>({{ count }})</span>
+									<span>( {{ count }})</span>
 								</div>
 							{% endfor %}
 							
@@ -66,10 +83,15 @@
 					<div class="filter-section">
 						<div class="filter-title">Discount</div>
 						<div class="filter-options">
-							{% for discount, count in discount_counts.items %}
+							{% for key, value in discount_counts.items %}
 								<div class="d-flex justify-content-between align-items-center">
-									<label><input type="checkbox" /> {{ discount }}</label>
-									<span>({{ count }})</span>
+									<label>
+										<input type="checkbox" />
+										<a href="{% url 'discount_products' value.slug %}" class="text-decoration-none text-black">	
+											{{ value.label }}
+										</a>
+									</label>
+									<span>({{ value.count }})</span>
 								</div>
 							{% endfor %}
 							
@@ -81,8 +103,13 @@
 						<div class="filter-options">
 							{% for color, count in color_counts.items %}
 								<div class="d-flex justify-content-between align-items-center">
-									<label><input type="checkbox" /> {{ color }}</label>
-									<span>({{ count}})</span>
+									
+										<label>
+											<a href="{% url 'color_products' color %}" class="text-decoration-none text-black">	
+												<input type="checkbox" /> {{ color }}</label>
+											</a>
+										<span>({{ count }})</span>
+									
 								</div>
 							{% endfor %}
 							
@@ -114,14 +141,31 @@
                                 {% for product in products %}
                                     <div class="col col-sm-6 col-md-4 col-lg-4  col-xl-4">
                                         <div class="card h-100">
-                                            {% if product.slug %}
-                                                <a href="{% url 'product_detail' product.slug %}">
-                                                    <img class="card-img-top" src="{{product.images.first.image_path.url }}" alt="{{ product.name }}" style="height: 500px; object-fit: cover;">
-                                                </a>
-                                            {% else %}
-                                                <img class="card-img-top" src="{{product.images.first.image_path.url }}" alt="{{ product.name }}" style="height: 500px; object-fit: cover;">
-                                            
-                                            {% endif %}
+                                            {# … inside your {% for product in products %} loop, within <div class="card h-100"> … #}
+											<div class="image-wrapper position-relative overflow-hidden" style="height: 500px;">
+												<a href="{% url 'product_detail' product.slug %}">
+													{# First (default) image #}
+													<img 
+														id="product-image-{{ forloop.counter }}" 
+														class="card-img-top main-image" 
+														src="{{ product.images.first.image_path.url }}" 
+														alt="{{ product.name }}" 
+														style="height: 100%; object-fit: cover;"
+													>
+
+													{# Second (hover) image, only output if there is a second image in the queryset #}
+													{% if product.images.all|length > 1 %}
+														<img 
+															class="card-img-top hover-image" 
+															src="{{ product.images.all.1.image_path.url }}" 
+															alt="{{ product.name }} (hover)" 
+															style="height: 100%; object-fit: cover;"
+														>
+													{% endif %}
+												</a>
+											</div>
+											{# … the rest of your .card-body/.card-footer … #}
+
 											
 
 											{% if product.is_best_selling %}
@@ -145,6 +189,24 @@
 													{% endif %}
                                                     
                                                 </p>
+
+												<div class="mb-2">
+													<div class="d-flex mt-1">
+														
+														 {% for color in product.color_sizes.all %}
+															<span class="color-option rounded-circle me-2"
+																style="width: 20px; height: 20px; background-color:red;"
+																data-img="{{ color.image_path.url }}"
+																onclick="changeImage('product-image-{{ forloop.parentloop.counter }}', this)">
+																
+															</span>
+														{% endfor %}
+														
+													</div>
+												</div>
+
+
+
                                                 <p class="card-text small">
                                                     {{ product.description |truncatechars:100 }}
                                                 </p>
